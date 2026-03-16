@@ -1,8 +1,10 @@
 # web-content-harvester
 
-一个 Claude Code Skill，用于批量采集网站搜索结果，提取标题、正文、评论数、点赞数、转发数，输出 CSV 文件。
+批量采集小红书、闲鱼搜索结果，提取标题、正文、评论数、点赞数、转发数，输出 CSV 文件。
 
-主要支持**小红书**和**闲鱼**，也支持通用网站。
+提供两种使用方式：
+- **Claude Code Skill**：在 Claude Code CLI 中自然语言触发
+- **独立命令行工具**（`harvest.py`）：在 Trae、VS Code 等任意终端中直接运行
 
 ---
 
@@ -103,6 +105,37 @@ web-content-harvester/
 └── references/
     └── platform-patterns.md       # 各平台专用解析脚本
 ```
+
+---
+
+## 在 Trae / VS Code 等 IDE 中使用
+
+不需要 Claude Code，直接在终端运行 `harvest.py`：
+
+```bash
+# 1. 安装依赖
+pip install requests beautifulsoup4
+
+# 2. 下载脚本
+curl -O https://raw.githubusercontent.com/genezhangyan/web-content-harvester/main/harvest.py
+
+# 3. 运行
+python harvest.py --platform xhs --keyword 露营装备 --pages 5
+python harvest.py --platform xianyu --keyword 复古相机 --pages 3
+
+# 直接传 Cookie（省略交互引导）
+python harvest.py --platform xhs --keyword 健身食谱 --pages 2 --cookie "a1=xxx; web_session=yyy"
+```
+
+**参数说明：**
+
+| 参数 | 简写 | 说明 |
+|------|------|------|
+| `--platform` | `-p` | 平台：`xhs`（小红书）或 `xianyu`（闲鱼） |
+| `--keyword` | `-k` | 搜索关键词 |
+| `--pages` | `-n` | 采集页数（默认3） |
+| `--cookie` | `-c` | 登录 Cookie（不填则交互式引导） |
+| `--output` | `-o` | 输出文件名（默认自动生成） |
 
 ---
 
